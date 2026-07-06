@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recruiting Timeline - Banking at UVA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --navy-950:#0A101F;
+    --navy-800:#152444;
+    --navy-700:#1F335E;
+    --orange:#E57200;
+    --orange-soft:#F5A455;
+    --paper:#F7F4EC;
+    --paper-dim:#EDE8DB;
+    --ink:#152444;
+    --slate:#8393B3;
+    --slate-dark:#4C5A7A;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--sans); background:var(--paper); color:var(--ink); -webkit-font-smoothing:antialiased;}
+  a{color:inherit; text-decoration:none;}
+  @media (prefers-reduced-motion: reduce){ *{animation-duration:0.001ms !important; scroll-behavior:auto !important;} }
+
+  nav{display:flex; align-items:center; justify-content:space-between; padding:22px 6vw; background:var(--navy-950);}
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{width:30px; height:30px;}
+  .brand-text{font-family:var(--serif); font-weight:700; font-size:18px; color:var(--paper); letter-spacing:0.02em;}
+  .brand-text em{font-style:normal; color:var(--orange);}
+  .nav-links{display:flex; gap:34px; font-size:14px; color:var(--slate);}
+  .nav-links a:hover{color:var(--orange-soft);}
+  .nav-cta{font-family:var(--mono); font-size:12.5px; color:var(--navy-950); background:var(--orange); padding:9px 18px; border-radius:2px; letter-spacing:0.03em;}
+  .nav-cta:hover{background:var(--orange-soft);}
+
+  header.hero{background:var(--navy-950); padding:80px 6vw 90px;}
+  .hero-inner{max-width:700px;}
+  .eyebrow{font-family:var(--mono); font-size:12.5px; color:var(--orange); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:22px; display:block;}
+  h1.hero-title{font-family:var(--serif); font-weight:700; font-size:clamp(34px,4.6vw,52px); color:var(--paper); line-height:1.1; letter-spacing:-0.01em; margin-bottom:22px;}
+  .hero-sub{font-size:16.5px; color:var(--slate); line-height:1.65; max-width:560px;}
+
+  section{padding:76px 6vw;}
+  .section-head{max-width:680px; margin-bottom:44px;}
+  .section-eyebrow{font-family:var(--mono); font-size:12px; color:var(--orange); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:14px; display:block;}
+  h2{font-family:var(--serif); font-weight:700; font-size:clamp(24px,3vw,32px); letter-spacing:-0.01em; color:var(--ink);}
+  .section-desc{font-size:15px; color:var(--slate-dark); line-height:1.65; margin-top:14px;}
+
+  .note{
+    background:var(--paper-dim); border-left:3px solid var(--orange); padding:20px 26px;
+    max-width:760px; font-size:14px; color:var(--slate-dark); line-height:1.65; margin-top:6px;
+  }
+  .note strong{color:var(--ink);}
+
+  /* Timeline */
+  .timeline{max-width:820px; position:relative;}
+  .timeline::before{content:''; position:absolute; left:19px; top:8px; bottom:8px; width:2px; background:rgba(21,36,68,0.15);}
+  .t-item{position:relative; padding-left:60px; margin-bottom:44px;}
+  .t-item:last-child{margin-bottom:0;}
+  .t-dot{position:absolute; left:11px; top:4px; width:18px; height:18px; border-radius:50%; background:var(--paper); border:3px solid var(--orange);}
+  .t-period{font-family:var(--mono); font-size:12px; color:var(--orange); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px;}
+  .t-item h3{font-family:var(--serif); font-size:22px; font-weight:700; color:var(--ink); margin-bottom:10px;}
+  .t-item p{font-size:14.5px; color:var(--slate-dark); line-height:1.65; max-width:640px;}
+
+  /* Milestones */
+  .milestones{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:rgba(21,36,68,0.12); max-width:900px;}
+  .milestone{background:var(--paper); padding:30px 28px;}
+  .m-num{font-family:var(--mono); font-size:12px; color:var(--orange); letter-spacing:0.06em;}
+  .milestone h3{font-family:var(--serif); font-size:19px; font-weight:600; margin:10px 0 10px; color:var(--ink);}
+  .milestone p{font-size:14px; color:var(--slate-dark); line-height:1.6;}
+
+  .cta-band{background:var(--navy-800);}
+  .cta-inner{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:26px;}
+  .cta-band h2{color:var(--paper);}
+  .cta-band .section-desc{color:var(--slate); max-width:480px;}
+  .btn-primary{font-family:var(--mono); font-size:13px; letter-spacing:0.03em; background:var(--orange); color:var(--navy-950); padding:14px 26px; border-radius:2px; display:inline-block;}
+  .btn-primary:hover{background:var(--orange-soft);}
+
+  footer{background:var(--navy-950); padding:26px 6vw; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; border-top:1px solid rgba(131,147,179,0.15);}
+  footer p{font-family:var(--mono); font-size:11.5px; color:var(--slate);}
+
+  @media(max-width:820px){
+    .nav-links{display:none;}
+    .milestones{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 100 100"><rect x="15" y="30" width="70" height="3" fill="#F7F4EC"/><rect x="20" y="36" width="6" height="20" fill="#E57200"/><rect x="32" y="36" width="6" height="20" fill="#F7F4EC"/><rect x="44" y="36" width="6" height="20" fill="#E57200"/><rect x="56" y="36" width="6" height="20" fill="#F7F4EC"/><rect x="68" y="36" width="6" height="20" fill="#E57200"/><rect x="15" y="59" width="70" height="3" fill="#F7F4EC"/></svg>
+    <div class="brand-text">BANKING <em>AT UVA</em></div>
+  </div>
+  <div class="nav-links">
+    <a href="index.html#mission">Mission</a>
+    <a href="index.html#practice">Flashcards</a>
+    <a href="recruiting-timeline.html">Timeline</a>
+  </div>
+  <a class="nav-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSfQKwg-F-fTvtFpcysWsIJ4MhFimK2CAPU0x_6W_IVzx9skSw/viewform?usp=publish-editor" target="_blank" rel="noopener">JOIN →</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Free Resource</span>
+    <h1 class="hero-title">The IB recruiting timeline, explained.</h1>
+    <p class="hero-sub">A broad overview of how investment banking recruiting works, when it happens, and what each stage actually involves. Recruiting has shifted earlier in recent years and varies bank to bank, so treat this as a general map, not a fixed schedule.</p>
+  </div>
+</header>
+
+<section id="overview">
+  <div class="section-head">
+    <span class="section-eyebrow">Overview</span>
+    <h2>Two entry points, two timelines</h2>
+    <p class="section-desc">Most students recruit for IB through one of two paths: a sophomore summer program, or full time recruiting that runs during junior year for a post graduation start. The two run on different calendars.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-period">Freshman Year</div>
+      <h3>Foundation building</h3>
+      <p>Building a base of financial literacy, joining finance focused clubs, and starting to understand what the job actually involves. Too early for most banks to recruit you directly, but not too early to start learning technicals and building your network.</p>
+    </div>
+
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-period">Sophomore Year, Fall to Spring</div>
+      <h3>Sophomore summer recruiting</h3>
+      <p>A smaller number of banks, mostly bulge bracket and elite boutique firms, run sophomore summer programs, often through diversity focused pipelines or select target school programs. Networking usually starts in the fall, with interviews and offers typically landing in the winter or spring. Landing one of these is a strong accelerant, but far from every analyst goes through this path.</p>
+    </div>
+
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-period">Junior Year, Full Time Recruiting</div>
+      <h3>The main recruiting cycle</h3>
+      <p>This is the primary path most analysts take. Timing has moved earlier over the past several recruiting cycles, with some banks running formal processes as early as the summer before junior year, and others sticking to a more traditional fall junior year timeline. Because timing varies so much bank to bank and year to year, the only reliable approach is to start networking early and stay ready.</p>
+    </div>
+
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-period">Summer Between Junior and Senior Year</div>
+      <h3>The internship</h3>
+      <p>A ten to twelve week internship that functions as an extended interview. Strong performance typically converts into a full time offer by the end of the summer, which is how most analyst classes are actually built.</p>
+    </div>
+
+    <div class="t-item">
+      <div class="t-dot"></div>
+      <div class="t-period">Senior Year and Beyond</div>
+      <h3>Full time start</h3>
+      <p>Graduates who converted their internship offer start as full time analysts after graduation. Students who didn't secure an offer through the internship path sometimes recruit again in the fall of senior year for remaining full time seats.</p>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:40px;">
+    <strong>A note on timing:</strong> recruiting dates shift earlier almost every cycle and differ significantly by bank size and group. Treat every date range above as a general pattern, not a guarantee, and confirm current timing directly with alumni, mentors, or the firms you're targeting.
+  </div>
+</section>
+
+<section id="milestones">
+  <div class="section-head">
+    <span class="section-eyebrow">The Process</span>
+    <h2>What each stage actually involves</h2>
+    <p class="section-desc">Regardless of when your recruiting cycle happens, it generally moves through the same stages.</p>
+  </div>
+
+  <div class="milestones">
+    <div class="milestone">
+      <span class="m-num">01</span>
+      <h3>Networking</h3>
+      <p>Coffee chats and informational calls with analysts and associates, usually the first real touchpoint with a firm. This is where referrals and first impressions are built, often well before an application even opens.</p>
+    </div>
+    <div class="milestone">
+      <span class="m-num">02</span>
+      <h3>Applications</h3>
+      <p>Formal applications through a bank's careers portal, typically requiring a resume, cover letter, and sometimes short answer questions about fit and interest.</p>
+    </div>
+    <div class="milestone">
+      <span class="m-num">03</span>
+      <h3>Screening interviews</h3>
+      <p>Early round interviews, often conducted over video or through a recorded one-way format, focused on behavioral fit and foundational technical knowledge.</p>
+    </div>
+    <div class="milestone">
+      <span class="m-num">04</span>
+      <h3>Superday</h3>
+      <p>A condensed final round, usually several back to back interviews in a single day, covering technicals, behavioral fit, and market awareness. This is where most offers are ultimately decided.</p>
+    </div>
+    <div class="milestone">
+      <span class="m-num">05</span>
+      <h3>Offer</h3>
+      <p>Offers typically come with a short decision window. Students who receive multiple offers around the same time often have to make a fast decision, which is part of why early preparation matters so much.</p>
+    </div>
+    <div class="milestone">
+      <span class="m-num">06</span>
+      <h3>Ongoing prep</h3>
+      <p>Even after an offer, technical fluency keeps mattering, both for the internship itself and for full time conversion. Recruiting prep isn't a one time event, it's a habit built over multiple semesters.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <div>
+      <span class="section-eyebrow">Practice</span>
+      <h2>Start drilling the technicals now</h2>
+      <p class="section-desc">Work through real accounting, valuation, M&A, LBO, markets, and behavioral questions with our free flashcard set.</p>
+    </div>
+    <a class="btn-primary" href="index.html#practice">Go to flashcards</a>
+  </div>
+</section>
+
+<footer>
+  <p>BANKING AT UVA</p>
+  <p>UNIVERSITY OF VIRGINIA</p>
+</footer>
+
+</body>
+</html>
