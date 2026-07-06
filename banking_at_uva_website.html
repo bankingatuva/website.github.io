@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banking at UVA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --navy-950:#0A101F;
+    --navy-800:#152444;
+    --navy-700:#1F335E;
+    --orange:#E57200;
+    --orange-soft:#F5A455;
+    --paper:#F7F4EC;
+    --paper-dim:#EDE8DB;
+    --ink:#152444;
+    --slate:#8393B3;
+    --slate-dark:#4C5A7A;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--sans);
+    background:var(--paper);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important;}
+  }
+
+  /* ---------- Ticker ---------- */
+  .ticker-wrap{
+    background:var(--navy-950);
+    border-bottom:1px solid rgba(229,114,0,0.25);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:9px 0;
+  }
+  .ticker-track{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.02em;
+    animation:scroll-left 38s linear infinite;
+    color:var(--orange-soft);
+  }
+  .ticker-track span{margin-right:48px;}
+  .ticker-track .up{color:#5FCF8E;}
+  .ticker-track .flat{color:var(--slate);}
+  @keyframes scroll-left{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+
+  /* ---------- Nav ---------- */
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 6vw;
+    background:var(--navy-950);
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{width:30px; height:30px;}
+  .brand-text{font-family:var(--serif); font-weight:700; font-size:18px; color:var(--paper); letter-spacing:0.02em;}
+  .brand-text em{font-style:normal; color:var(--orange);}
+  .nav-links{display:flex; gap:34px; font-size:14px; color:var(--slate);}
+  .nav-links a:hover{color:var(--orange-soft);}
+  .nav-cta{
+    font-family:var(--mono); font-size:12.5px; color:var(--navy-950);
+    background:var(--orange); padding:9px 18px; border-radius:2px;
+    letter-spacing:0.03em;
+  }
+  .nav-cta:hover{background:var(--orange-soft);}
+
+  /* ---------- Hero ---------- */
+  header.hero{
+    background:var(--navy-950);
+    padding:90px 6vw 110px;
+    position:relative;
+    overflow:hidden;
+  }
+  .columns-graphic{
+    position:absolute; top:0; right:6vw; height:100%;
+    display:flex; gap:14px; opacity:0.55;
+  }
+  .columns-graphic div{width:9px; background:linear-gradient(180deg, var(--orange) 0%, transparent 85%); opacity:0.35;}
+  .hero-inner{max-width:640px; position:relative; z-index:1;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; color:var(--orange);
+    letter-spacing:0.12em; text-transform:uppercase; margin-bottom:22px;
+    display:block;
+  }
+  h1.hero-title{
+    font-family:var(--serif); font-weight:700; font-size:clamp(38px,5.2vw,60px);
+    color:var(--paper); line-height:1.05; letter-spacing:-0.01em; margin-bottom:26px;
+  }
+  h1.hero-title .accent{color:var(--orange);}
+  .hero-sub{
+    font-size:17px; color:var(--slate); line-height:1.6; max-width:520px; margin-bottom:38px;
+  }
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn-primary{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.03em;
+    background:var(--orange); color:var(--navy-950); padding:14px 26px; border-radius:2px;
+    display:inline-block; transition:background 0.15s;
+  }
+  .btn-primary:hover{background:var(--orange-soft);}
+  .btn-secondary{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.03em;
+    border:1px solid var(--slate-dark); color:var(--paper); padding:13px 25px; border-radius:2px;
+    display:inline-block; transition:border-color 0.15s, color 0.15s;
+  }
+  .btn-secondary:hover{border-color:var(--orange); color:var(--orange-soft);}
+
+  /* ---------- Section shell ---------- */
+  section{padding:86px 6vw;}
+  .section-head{max-width:640px; margin-bottom:52px;}
+  .section-eyebrow{
+    font-family:var(--mono); font-size:12px; color:var(--orange); letter-spacing:0.1em;
+    text-transform:uppercase; margin-bottom:14px; display:block;
+  }
+  h2{
+    font-family:var(--serif); font-weight:700; font-size:clamp(26px,3.2vw,36px);
+    letter-spacing:-0.01em; color:var(--ink);
+  }
+  .section-desc{font-size:15.5px; color:var(--slate-dark); line-height:1.65; margin-top:14px;}
+
+  /* ---------- Mission pillars ---------- */
+  .pillars{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+  .pillar{
+    border-top:2px solid var(--navy-800); padding-top:20px;
+  }
+  .pillar-num{font-family:var(--mono); font-size:12px; color:var(--orange); letter-spacing:0.06em;}
+  .pillar h3{font-family:var(--serif); font-size:19px; font-weight:600; margin:10px 0 10px; color:var(--ink);}
+  .pillar p{font-size:14.5px; color:var(--slate-dark); line-height:1.6;}
+
+  /* ---------- News ---------- */
+  .news-section{background:var(--navy-950);}
+  .news-section .section-desc, .news-section h2, .news-section .section-eyebrow{color:var(--paper);}
+  .news-section .section-eyebrow{color:var(--orange);}
+  .news-section .section-desc{color:var(--slate);}
+  .news-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(131,147,179,0.2);}
+  .news-card{background:var(--navy-950); padding:28px 24px;}
+  .news-date{font-family:var(--mono); font-size:11.5px; color:var(--orange-soft); letter-spacing:0.05em;}
+  .news-tag{
+    font-family:var(--mono); font-size:10.5px; color:var(--slate); letter-spacing:0.08em;
+    border:1px solid var(--slate-dark); padding:2px 8px; border-radius:10px; margin-left:10px;
+  }
+  .news-card h3{
+    font-family:var(--serif); font-size:18px; font-weight:600; color:var(--paper);
+    margin:14px 0 10px; line-height:1.3;
+  }
+  .news-card p{font-size:13.5px; color:var(--slate); line-height:1.6;}
+
+  /* ---------- Flashcards ---------- */
+  .flashcard-wrap{max-width:640px;}
+  .flashcard{
+    perspective:1400px; height:280px; cursor:pointer; margin-bottom:24px;
+  }
+  .flashcard-inner{
+    position:relative; width:100%; height:100%; text-align:left;
+    transition:transform 0.5s; transform-style:preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner{transform:rotateY(180deg);}
+  .flashcard-face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    border:1px solid rgba(21,36,68,0.18); border-radius:4px;
+    padding:34px 38px; display:flex; flex-direction:column; justify-content:center;
+    background:#fff;
+  }
+  .flashcard-front{background:#fff;}
+  .flashcard-back{transform:rotateY(180deg); background:var(--navy-800);}
+  .flashcard-back .fc-text{color:var(--paper);}
+  .flashcard-back .fc-cat{color:var(--orange-soft);}
+  .flashcard-back .fc-hint{color:var(--slate);}
+  .fc-cat{
+    font-family:var(--mono); font-size:11px; color:var(--orange); letter-spacing:0.08em;
+    text-transform:uppercase; margin-bottom:16px;
+  }
+  .fc-text{font-family:var(--serif); font-size:21px; line-height:1.45; color:var(--ink); font-weight:600;}
+  .fc-hint{
+    font-family:var(--mono); font-size:11px; color:var(--slate-dark); letter-spacing:0.04em;
+    margin-top:20px;
+  }
+  .flashcard-controls{display:flex; align-items:center; gap:20px;}
+  .fc-progress{font-family:var(--mono); font-size:12px; color:var(--slate-dark); letter-spacing:0.04em;}
+  .fc-shuffle{cursor:pointer; border-color:var(--navy-800); color:var(--ink); background:none;}
+  .fc-shuffle:hover{border-color:var(--orange); color:var(--orange);}
+  @media(max-width:820px){
+    .flashcard{height:320px;}
+    .flashcard-face{padding:26px 24px;}
+  }
+
+  /* ---------- Join / footer ---------- */
+  .join{background:var(--navy-800); text-align:left;}
+  .join-inner{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:30px;}
+  .join h2{color:var(--paper);}
+  .join .section-desc{color:var(--slate); max-width:480px;}
+  footer{
+    background:var(--navy-950); padding:26px 6vw; display:flex; justify-content:space-between;
+    align-items:center; flex-wrap:wrap; gap:14px; border-top:1px solid rgba(131,147,179,0.15);
+  }
+  footer p{font-family:var(--mono); font-size:11.5px; color:var(--slate);}
+
+  @media(max-width:820px){
+    .pillars{grid-template-columns:1fr;}
+    .news-grid{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .q-cat{display:none;}
+    .q-answer{padding-left:38px;}
+    .q-item.open .q-answer{padding-left:38px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker-wrap">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<nav>
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 100 100"><rect x="15" y="30" width="70" height="3" fill="#F7F4EC"/><rect x="20" y="36" width="6" height="20" fill="#E57200"/><rect x="32" y="36" width="6" height="20" fill="#F7F4EC"/><rect x="44" y="36" width="6" height="20" fill="#E57200"/><rect x="56" y="36" width="6" height="20" fill="#F7F4EC"/><rect x="68" y="36" width="6" height="20" fill="#E57200"/><rect x="15" y="59" width="70" height="3" fill="#F7F4EC"/></svg>
+    <div class="brand-text">BANKING <em>AT UVA</em></div>
+  </div>
+  <div class="nav-links">
+    <a href="#mission">Mission</a>
+    <a href="#news">News</a>
+    <a href="#practice">Practice</a>
+  </div>
+  <a class="nav-cta" href="mailto:bankingatvirginia@gmail.com">JOIN →</a>
+</nav>
+
+<header class="hero">
+  <div class="columns-graphic">
+    <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+  <div class="hero-inner">
+    <span class="eyebrow">Est. 2026 · University of Virginia</span>
+    <h1 class="hero-title">Investment banking,<br><span class="accent">taught right.</span></h1>
+    <p class="hero-sub">Making investment banking accessible to every student with the drive to succeed, through technical training, alumni access, and mentorship. The only club at UVA built exclusively for IB recruiting prep.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="mailto:bankingatvirginia@gmail.com">Join the founding class</a>
+      <a class="btn-secondary" href="#practice">Try a practice question</a>
+    </div>
+  </div>
+</header>
+
+<section id="mission">
+  <div class="section-head">
+    <span class="section-eyebrow">Mission</span>
+    <h2>Three things we actually do</h2>
+    <p class="section-desc">Not a general finance club. Every meeting, every resource, and every relationship we build serves one goal: getting members recruiting-ready for investment banking.</p>
+  </div>
+  <div class="pillars">
+    <div class="pillar">
+      <span class="pillar-num">01 · Training</span>
+      <h3>Technical & behavioral prep</h3>
+      <p>Weekly sessions covering the accounting, valuation, and modeling questions that come up in real interviews, plus the behavioral prep most students skip.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">02 · Access</span>
+      <h3>Alumni speakers</h3>
+      <p>Direct sessions with UVA alumni working in investment banking, real perspective from people who've been through recruiting recently.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">03 · Mentorship</span>
+      <h3>Paired guidance</h3>
+      <p>Every member gets matched with an alumnus or upperclassman for ongoing support through the recruiting process, not just a single session.</p>
+    </div>
+  </div>
+</section>
+
+<section class="news-section" id="news">
+  <div class="section-head">
+    <span class="section-eyebrow">Deal Tape</span>
+    <h2>Recent M&A transactions</h2>
+    <p class="section-desc">A running look at real deals shaping the market this year. Updated as new transactions are announced.</p>
+  </div>
+  <div class="news-grid" id="newsGrid"></div>
+</section>
+
+<section id="practice">
+  <div class="section-head">
+    <span class="section-eyebrow">Free Resource</span>
+    <h2>Technical flashcards</h2>
+    <p class="section-desc">A randomized set of the questions we drill in weekly sessions. Click the card to flip it, then shuffle for a new one.</p>
+  </div>
+  <div class="flashcard-wrap">
+    <div class="flashcard" id="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+          <span class="fc-cat" id="fcCatFront"></span>
+          <p class="fc-text" id="fcQuestion"></p>
+          <span class="fc-hint">Click to reveal answer</span>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <span class="fc-cat" id="fcCatBack"></span>
+          <p class="fc-text" id="fcAnswer"></p>
+          <span class="fc-hint">Click to flip back</span>
+        </div>
+      </div>
+    </div>
+    <div class="flashcard-controls">
+      <span class="fc-progress" id="fcProgress"></span>
+      <button class="btn-secondary fc-shuffle" id="fcShuffle" type="button">Shuffle · next card</button>
+    </div>
+  </div>
+</section>
+
+<section class="join" id="join">
+  <div class="join-inner">
+    <div>
+      <span class="section-eyebrow">Join Us</span>
+      <h2>Ready to start recruiting-ready?</h2>
+      <p class="section-desc">Reach out to be part of our founding class, or to learn more about upcoming sessions.</p>
+    </div>
+    <a class="btn-primary" href="mailto:bankingatvirginia@gmail.com">bankingatvirginia@gmail.com</a>
+  </div>
+</section>
+
+<footer>
+  <p>BANKING AT UVA, FOUNDED 2026</p>
+  <p>UNIVERSITY OF VIRGINIA</p>
+</footer>
+
+<script>
+  const newsTicker = [
+    {text:"QUALCOMM TO ACQUIRE MODULAR, ~$4.0B", type:"up"},
+    {text:"SAFRAN TO ACQUIRE EXAIL TECHNOLOGIES, €2.19B", type:"up"},
+    {text:"BRIDGEPOINT TO ACQUIRE KAYNE ANDERSON REAL ESTATE, $1.39B", type:"flat"},
+    {text:"ONSEMI TO ACQUIRE SYNAPTICS", type:"flat"},
+    {text:"ADOBE TO ACQUIRE TOPAZ LABS", type:"up"},
+    {text:"SPACEX AND XAI TO MERGE, ~$1.25T COMBINED", type:"up"},
+  ];
+  const track = document.getElementById('tickerTrack');
+  const buildTicker = () => newsTicker.map(n => `<span class="${n.type}">${n.type==='up' ? '▲' : '●'} ${n.text}</span>`).join('');
+  track.innerHTML = buildTicker() + buildTicker();
+
+  const deals = [
+    {tag:"Technology", value:"~$4.0B", title:"Qualcomm to acquire Modular", desc:"Qualcomm moves further into AI infrastructure, adding Modular's software stack for running AI models more efficiently across chips."},
+    {tag:"Aerospace & Defense", value:"€2.19B", title:"Safran to acquire Exail Technologies", desc:"Safran expands into autonomous naval systems and advanced navigation technology."},
+    {tag:"Real Estate", value:"$1.39B", title:"Bridgepoint to acquire Kayne Anderson Real Estate", desc:"A private equity consolidation move in the real estate investment management space."},
+    {tag:"Semiconductors", value:"Undisclosed", title:"onsemi to acquire Synaptics", desc:"onsemi adds Synaptics' intelligent sensing and connectivity technology to build out next generation physical AI systems."},
+    {tag:"Software", value:"Undisclosed", title:"Adobe to acquire Topaz Labs", desc:"Adobe expands its AI-powered creative tools by bringing Topaz Labs' image and video enhancement technology in house."},
+    {tag:"Aerospace & AI", value:"~$1.25T combined", title:"SpaceX and xAI to merge", desc:"One of the largest M&A transactions on record combines SpaceX's compute, satellite, and launch infrastructure with xAI's foundation model research, uniting the two Musk-controlled companies under one entity."},
+  ];
+  const newsGrid = document.getElementById('newsGrid');
+  newsGrid.innerHTML = deals.map(d => `
+    <div class="news-card">
+      <span class="news-date">${d.value} <span class="news-tag">${d.tag}</span></span>
+      <h3>${d.title}</h3>
+      <p>${d.desc}</p>
+    </div>
+  `).join('');
+
+  const questions = [
+    {cat:"Accounting", q:"Walk me through the three financial statements.", a:"The income statement shows revenue, expenses, and net income over a period. The balance sheet shows assets, liabilities, and equity at a point in time. The cash flow statement shows cash generated and used across operating, investing, and financing activities. Net income flows into retained earnings on the balance sheet and is the starting point for the cash flow statement."},
+    {cat:"Valuation", q:"What are the three main valuation methodologies?", a:"Comparable company analysis using trading multiples of similar public companies, precedent transactions using multiples paid in past M&A deals for similar companies, and discounted cash flow analysis using the present value of projected future cash flows. Trading comps reflect public market sentiment, precedents include a control premium, and DCF is the most intrinsic but most assumption sensitive."},
+    {cat:"Valuation", q:"Why would a DCF produce a higher valuation than comparable companies?", a:"A DCF can produce a higher value if the company's projected growth or margins are more optimistic than what public market multiples currently reflect, if the discount rate used is relatively low, or if the terminal value assumption is aggressive. It can also reflect that comps are temporarily undervalued due to market conditions rather than fundamentals."},
+    {cat:"M&A", q:"What's the difference between a strategic and a financial buyer?", a:"A strategic buyer is typically another operating company acquiring for synergies, such as cost savings, market access, or product expansion, and can often justify paying a higher price. A financial buyer, like a private equity firm, acquires primarily for investment returns, usually through leverage and an eventual exit, and has less ability to pay for synergies it cannot realize."},
+    {cat:"Accounting", q:"If depreciation increases by $10, what happens to the three statements?", a:"On the income statement, pre-tax income falls by $10, and net income falls by $10 times one minus the tax rate. On the cash flow statement, net income is down, but depreciation is a non-cash expense added back, so cash from operations actually increases by $10 times the tax rate. On the balance sheet, PP&E decreases by $10, cash increases by the tax savings, and retained earnings falls by the net income decrease, so both sides stay in balance."},
+    {cat:"Behavioral", q:"Why investment banking?", a:"Strong answers usually combine three threads: genuine interest in deal work and corporate finance, a specific reason tied to personal experience such as a project, internship, or class that sparked it, and why this firm or group specifically fits that interest. Avoid generic answers about fast paced environments or learning a lot without concrete specifics behind them."},
+  ];
+
+  let order = [];
+  let pos = 0;
+  const shuffle = arr => {
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  };
+  const card = document.getElementById('flashcard');
+  const showCard = () => {
+    const item = questions[order[pos]];
+    card.classList.remove('flipped');
+    document.getElementById('fcCatFront').textContent = item.cat;
+    document.getElementById('fcCatBack').textContent = item.cat;
+    document.getElementById('fcQuestion').textContent = item.q;
+    document.getElementById('fcAnswer').textContent = item.a;
+    document.getElementById('fcProgress').textContent = `Card ${pos+1} of ${questions.length}`;
+  };
+  const nextCard = () => {
+    pos += 1;
+    if(pos >= order.length){ order = shuffle(questions.map((_,i)=>i)); pos = 0; }
+    showCard();
+  };
+  order = shuffle(questions.map((_,i)=>i));
+  showCard();
+  document.getElementById('fcShuffle').addEventListener('click', (e) => { e.stopPropagation(); nextCard(); });
+</script>
+
+</body>
+</html>
