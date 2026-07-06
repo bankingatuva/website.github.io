@@ -160,6 +160,17 @@
   .news-card p{font-size:13.5px; color:var(--slate); line-height:1.6;}
 
   /* ---------- Flashcards ---------- */
+  .fc-filter-row{display:flex; align-items:center; gap:14px; margin-bottom:22px;}
+  .fc-filter-label{
+    font-family:var(--mono); font-size:11.5px; color:var(--slate-dark); letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  .fc-select{
+    font-family:var(--mono); font-size:13px; color:var(--ink); background:#fff;
+    border:1px solid rgba(21,36,68,0.25); border-radius:2px; padding:9px 14px;
+    cursor:pointer; letter-spacing:0.02em;
+  }
+  .fc-select:focus{outline:2px solid var(--orange); outline-offset:1px;}
   .flashcard-wrap{max-width:640px;}
   .flashcard{
     perspective:1400px; height:280px; cursor:pointer; margin-bottom:24px;
@@ -235,7 +246,7 @@
     <a href="#news">News</a>
     <a href="#practice">Practice</a>
   </div>
-  <a class="nav-cta" href="mailto:bankingatvirginia@gmail.com">JOIN →</a>
+  <a class="nav-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSfQKwg-F-fTvtFpcysWsIJ4MhFimK2CAPU0x_6W_IVzx9skSw/viewform?usp=publish-editor" target="_blank" rel="noopener">JOIN →</a>
 </nav>
 
 <header class="hero">
@@ -243,11 +254,11 @@
     <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
   </div>
   <div class="hero-inner">
-    <span class="eyebrow">Est. 2026 · University of Virginia</span>
+    <span class="eyebrow">University of Virginia</span>
     <h1 class="hero-title">Investment banking,<br><span class="accent">taught right.</span></h1>
     <p class="hero-sub">Making investment banking accessible to every student with the drive to succeed, through technical training, alumni access, and mentorship. The only club at UVA built exclusively for IB recruiting prep.</p>
     <div class="hero-actions">
-      <a class="btn-primary" href="mailto:bankingatvirginia@gmail.com">Join the founding class</a>
+      <a class="btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSfQKwg-F-fTvtFpcysWsIJ4MhFimK2CAPU0x_6W_IVzx9skSw/viewform?usp=publish-editor" target="_blank" rel="noopener">Join Banking at UVA</a>
       <a class="btn-secondary" href="#practice">Try a practice question</a>
     </div>
   </div>
@@ -294,6 +305,10 @@
     <p class="section-desc">A randomized set of the questions we drill in weekly sessions. Click the card to flip it, then shuffle for a new one.</p>
   </div>
   <div class="flashcard-wrap">
+    <div class="fc-filter-row">
+      <label class="fc-filter-label" for="fcCategory">Category</label>
+      <select id="fcCategory" class="fc-select"></select>
+    </div>
     <div class="flashcard" id="flashcard" onclick="this.classList.toggle('flipped')">
       <div class="flashcard-inner">
         <div class="flashcard-face flashcard-front">
@@ -320,14 +335,14 @@
     <div>
       <span class="section-eyebrow">Join Us</span>
       <h2>Ready to start recruiting-ready?</h2>
-      <p class="section-desc">Reach out to be part of our founding class, or to learn more about upcoming sessions.</p>
+      <p class="section-desc">Fill out the form to join Banking at UVA, or reach out to learn more about upcoming sessions.</p>
     </div>
-    <a class="btn-primary" href="mailto:bankingatvirginia@gmail.com">bankingatvirginia@gmail.com</a>
+    <a class="btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSfQKwg-F-fTvtFpcysWsIJ4MhFimK2CAPU0x_6W_IVzx9skSw/viewform?usp=publish-editor" target="_blank" rel="noopener">Fill out the join form</a>
   </div>
 </section>
 
 <footer>
-  <p>BANKING AT UVA, FOUNDED 2026</p>
+  <p>BANKING AT UVA</p>
   <p>UNIVERSITY OF VIRGINIA</p>
 </footer>
 
@@ -362,14 +377,62 @@
   `).join('');
 
   const questions = [
+    // Accounting
     {cat:"Accounting", q:"Walk me through the three financial statements.", a:"The income statement shows revenue, expenses, and net income over a period. The balance sheet shows assets, liabilities, and equity at a point in time. The cash flow statement shows cash generated and used across operating, investing, and financing activities. Net income flows into retained earnings on the balance sheet and is the starting point for the cash flow statement."},
+    {cat:"Accounting", q:"If depreciation increases by $10, what happens to the three statements?", a:"On the income statement, pre-tax income falls by $10, and net income falls by $10 times one minus the tax rate. On the cash flow statement, net income is down, but depreciation is a non-cash expense added back, so cash from operations actually increases by $10 times the tax rate. On the balance sheet, PP&E decreases by $10, cash increases by the tax savings, and retained earnings falls by the net income decrease, so both sides stay in balance."},
+    {cat:"Accounting", q:"What is working capital and why does it matter in M&A?", a:"Working capital is current assets minus current liabilities, mainly receivables, inventory, and payables. In M&A it matters because deals typically include a target working capital level in the purchase agreement, and the purchase price gets adjusted up or down if actual working capital at close differs from that target."},
+    {cat:"Accounting", q:"Walk me through how an increase in accounts receivable affects the three statements.", a:"The income statement is unaffected since revenue was already recognized. On the cash flow statement, the increase in receivables is a use of cash, so cash from operations decreases. On the balance sheet, receivables increase, so total assets go up, and cash goes down by the same amount, keeping the balance sheet in balance."},
+    {cat:"Accounting", q:"What's the difference between accrual accounting and cash accounting?", a:"Accrual accounting recognizes revenue and expenses when they are earned or incurred, regardless of when cash actually changes hands. Cash accounting recognizes them only when cash is received or paid. Public companies are required to use accrual accounting under GAAP, which is why net income and cash flow can differ significantly."},
+    {cat:"Accounting", q:"What's the difference between EBIT and EBITDA, and why do bankers prefer EBITDA?", a:"EBIT is earnings before interest and taxes, so it still includes depreciation and amortization. EBITDA adds D&A back on top of that. Bankers prefer EBITDA as a proxy for cash flow and for comparing companies because it strips out differences in capital structure, tax rates, and non-cash accounting choices that can distort comparisons between companies."},
+    {cat:"Accounting", q:"If a company writes off $50 of goodwill, what happens to each statement?", a:"On the income statement, an impairment expense of $50 reduces pre-tax income, and net income falls, though goodwill impairments are often non-deductible so there may be no tax effect. On the cash flow statement, the impairment is a non-cash charge, so it gets added back, meaning cash from operations is unaffected. On the balance sheet, goodwill decreases by $50 and retained earnings decreases by the same amount, keeping both sides balanced."},
+
+    // Valuation
     {cat:"Valuation", q:"What are the three main valuation methodologies?", a:"Comparable company analysis using trading multiples of similar public companies, precedent transactions using multiples paid in past M&A deals for similar companies, and discounted cash flow analysis using the present value of projected future cash flows. Trading comps reflect public market sentiment, precedents include a control premium, and DCF is the most intrinsic but most assumption sensitive."},
     {cat:"Valuation", q:"Why would a DCF produce a higher valuation than comparable companies?", a:"A DCF can produce a higher value if the company's projected growth or margins are more optimistic than what public market multiples currently reflect, if the discount rate used is relatively low, or if the terminal value assumption is aggressive. It can also reflect that comps are temporarily undervalued due to market conditions rather than fundamentals."},
+    {cat:"Valuation", q:"What's the difference between enterprise value and equity value?", a:"Equity value is what shareholders own, essentially share price times shares outstanding. Enterprise value represents the value of the whole business to all capital providers, calculated as equity value plus debt and minority interest and preferred stock, minus cash. Enterprise value is capital structure neutral, which is why it's used for multiples like EV to EBITDA."},
+    {cat:"Valuation", q:"Walk me through how you'd calculate WACC.", a:"WACC weights the cost of equity and after tax cost of debt by their proportion of the company's capital structure. Cost of equity is usually estimated with CAPM, risk free rate plus beta times the equity risk premium. Cost of debt is the company's borrowing rate, adjusted downward by one minus the tax rate since interest is tax deductible. You then weight each by the market value of equity and debt as a share of total capitalization."},
+    {cat:"Valuation", q:"Why do you use unlevered free cash flow in a DCF rather than levered free cash flow?", a:"Unlevered free cash flow excludes interest expense, so it reflects cash flow available to all capital providers, not just equity holders. Since it is discounted at WACC, which blends the cost of both debt and equity, using unlevered cash flow avoids double counting the cost of debt that is already captured in the discount rate."},
+    {cat:"Valuation", q:"What is terminal value and how do you calculate it?", a:"Terminal value captures the value of all cash flows beyond the explicit projection period. It's usually calculated one of two ways, the Gordon Growth method, which grows the final year's cash flow at a perpetual growth rate and discounts it, or the exit multiple method, which applies a market based multiple to the final year's metric, often EBITDA."},
+    {cat:"Valuation", q:"Why might two companies in the same industry trade at very different EV/EBITDA multiples?", a:"Differences usually come down to growth expectations, margin profile, competitive positioning, capital intensity, and perceived risk. A company with faster growth, higher margins, or a stronger moat will typically command a premium multiple even within the same sector."},
+
+    // M&A
     {cat:"M&A", q:"What's the difference between a strategic and a financial buyer?", a:"A strategic buyer is typically another operating company acquiring for synergies, such as cost savings, market access, or product expansion, and can often justify paying a higher price. A financial buyer, like a private equity firm, acquires primarily for investment returns, usually through leverage and an eventual exit, and has less ability to pay for synergies it cannot realize."},
-    {cat:"Accounting", q:"If depreciation increases by $10, what happens to the three statements?", a:"On the income statement, pre-tax income falls by $10, and net income falls by $10 times one minus the tax rate. On the cash flow statement, net income is down, but depreciation is a non-cash expense added back, so cash from operations actually increases by $10 times the tax rate. On the balance sheet, PP&E decreases by $10, cash increases by the tax savings, and retained earnings falls by the net income decrease, so both sides stay in balance."},
+    {cat:"M&A", q:"What is accretion/dilution analysis?", a:"It measures whether an acquirer's earnings per share increases (accretive) or decreases (dilutive) after a deal closes, based on the combined company's pro forma net income divided by pro forma shares outstanding. It's driven mainly by the relative P/E multiples of the buyer and target and how the deal is financed."},
+    {cat:"M&A", q:"When would a stock deal be more attractive to a buyer than a cash deal?", a:"A buyer might prefer a stock deal if its own stock is trading at a high valuation, since it effectively lets them pay with expensive currency, if it wants to preserve cash and balance sheet flexibility, or if it wants to share integration risk with the seller by giving them ongoing exposure to the combined company."},
+    {cat:"M&A", q:"What's the difference between a merger and an acquisition, technically speaking?", a:"In an acquisition, one company purchases another, and the target typically stops existing as an independent entity or becomes a subsidiary. In a merger, two companies technically combine to form a new entity, though in practice the terms are often used interchangeably regardless of the deal's legal structure."},
+    {cat:"M&A", q:"What is a synergy, and what's the difference between revenue and cost synergies?", a:"A synergy is additional value created by combining two companies that neither could achieve independently. Cost synergies come from eliminating duplicate functions, facilities, or overhead. Revenue synergies come from cross selling, expanded distribution, or combined product offerings, and are generally viewed as less certain and harder to underwrite than cost synergies."},
+    {cat:"M&A", q:"Why might a seller prefer an all-cash deal over a stock-for-stock deal?", a:"Cash gives the seller certainty of value at closing, since it isn't exposed to fluctuations in the acquirer's share price afterward. It also lets shareholders exit fully rather than remaining exposed to integration risk or the combined company's future performance."},
+    {cat:"M&A", q:"What's a break-up fee and why does it exist in a merger agreement?", a:"A break-up fee is a payment one party, usually the target, owes the other if the deal falls through under specific circumstances, such as the target's board accepting a superior competing offer. It compensates the disappointed party for time and cost sunk into the deal and discourages sellers from using a signed agreement just to solicit better offers."},
+
+    // LBO
+    {cat:"LBO", q:"Walk me through a basic LBO model.", a:"A financial sponsor acquires a company using a combination of debt and equity, often with debt making up the majority of the purchase price. The company's cash flows are used to pay down debt over the holding period, and the sponsor exits, usually in three to seven years, by selling the company or taking it public. Returns come from debt paydown, EBITDA growth, and any multiple expansion at exit."},
+    {cat:"LBO", q:"What makes a good LBO candidate?", a:"Strong, stable, and predictable cash flows to support debt service, low ongoing capital expenditure needs, a defensible market position, room for operational improvement, and a reasonable purchase price relative to cash flow. Businesses with recurring revenue and limited cyclicality are especially attractive."},
+    {cat:"LBO", q:"What are the main levers that drive returns in an LBO?", a:"Three main levers: debt paydown, which increases the equity portion of the capital structure over time; EBITDA growth, from revenue growth or margin improvement; and multiple expansion, selling at a higher multiple than the entry multiple. Of the three, debt paydown and EBITDA growth are generally viewed as more controllable than multiple expansion."},
+    {cat:"LBO", q:"What's the difference between IRR and MOIC?", a:"MOIC, multiple on invested capital, measures total cash returned divided by cash invested, without accounting for time. IRR measures the annualized rate of return and does account for time. A deal can have a high MOIC but a mediocre IRR if it took a very long time to achieve, or a high IRR but modest MOIC if returns came quickly."},
+    {cat:"LBO", q:"Why do private equity firms use leverage in an acquisition?", a:"Leverage reduces the amount of equity a sponsor needs to put in, which increases the percentage return on that equity if the deal performs well. It also creates discipline for management around cash generation and debt paydown, though it increases risk if the company underperforms or cannot service its debt."},
+    {cat:"LBO", q:"What happens to equity returns if you increase the amount of debt used in an LBO, holding everything else constant?", a:"Higher leverage generally increases the equity return, since less equity is required upfront to fund the same purchase price, and the fixed value created by the deal is now split across a smaller equity base. This magnifies returns in a successful deal, but it also magnifies losses and increases risk if performance falls short."},
+
+    // Markets
+    {cat:"Markets", q:"What happens to bond prices when interest rates rise?", a:"Bond prices fall when interest rates rise, since existing bonds with lower fixed coupon rates become less attractive compared to newly issued bonds paying higher rates. The relationship is inverse, and longer duration bonds are more sensitive to rate changes than shorter duration bonds."},
+    {cat:"Markets", q:"What's the difference between the Fed Funds Rate and the 10-year Treasury yield?", a:"The Fed Funds Rate is the short term interest rate the Federal Reserve targets for overnight lending between banks, directly controlled by monetary policy. The 10-year Treasury yield is a longer term rate set by the market, reflecting investor expectations for growth, inflation, and future Fed policy over the next decade."},
+    {cat:"Markets", q:"Walk me through what happens to stock valuations when interest rates rise.", a:"Higher rates increase the discount rate used to value future cash flows, which lowers the present value of those cash flows and tends to pressure valuations downward, particularly for growth companies whose value is weighted toward cash flows far in the future. Higher rates can also increase borrowing costs and slow economic activity, which can further weigh on earnings expectations."},
+    {cat:"Markets", q:"What's an inverted yield curve and what does it typically signal?", a:"An inverted yield curve occurs when short term interest rates are higher than long term rates, the opposite of the normal upward sloping curve. It has historically been viewed as a signal that investors expect slower growth or a recession ahead, since it implies the market expects rates to fall in the future."},
+    {cat:"Markets", q:"If you had $10,000 to invest today, what would you do with it?", a:"There's no single right answer, interviewers are testing whether you can articulate a clear, reasoned view. A strong answer picks a specific asset or sector, explains the thesis with a concrete catalyst or trend, acknowledges the key risk, and shows genuine engagement with markets rather than a generic or hedge-everything answer."},
+
+    // Behavioral
     {cat:"Behavioral", q:"Why investment banking?", a:"Strong answers usually combine three threads: genuine interest in deal work and corporate finance, a specific reason tied to personal experience such as a project, internship, or class that sparked it, and why this firm or group specifically fits that interest. Avoid generic answers about fast paced environments or learning a lot without concrete specifics behind them."},
+    {cat:"Behavioral", q:"Walk me through your resume.", a:"This should be a concise narrative, not a recitation. Pick two to three threads that connect your experiences, such as a growing interest in finance or a pattern of taking on more analytical responsibility, and walk through them chronologically, ending with why that trajectory leads naturally to this role."},
+    {cat:"Behavioral", q:"Why this firm?", a:"Strong answers are specific rather than generic. Reference something distinct about the firm's culture, deal focus, group structure, or people you've spoken with, and connect it to what you're looking for. Avoid answers that could apply equally to any bank."},
+    {cat:"Behavioral", q:"Tell me about a time you worked on a team under a tight deadline.", a:"Use a specific example with a clear structure: the situation and stakes, the specific actions you took, and the outcome. Emphasize your individual contribution and what you learned, rather than describing the team's effort in vague, collective terms."},
+    {cat:"Behavioral", q:"What's a weakness you're working on?", a:"Pick something genuine and specific rather than a disguised strength like working too hard. Explain concretely what you're doing to improve it, showing self-awareness and a proactive approach rather than just naming the weakness."},
+    {cat:"Behavioral", q:"Tell me about a time you disagreed with someone and how you handled it.", a:"Choose an example where you handled the disagreement professionally and constructively, focusing on how you communicated your perspective, listened to the other side, and reached a resolution. Avoid examples that make you look combative or examples where you simply deferred without explanation."},
   ];
 
+  const categorySelect = document.getElementById('fcCategory');
+  const cats = ["All Categories", ...Array.from(new Set(questions.map(q => q.cat)))];
+  categorySelect.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
+
+  let activeDeck = questions.map((_, i) => i);
   let order = [];
   let pos = 0;
   const shuffle = arr => {
@@ -388,15 +451,24 @@
     document.getElementById('fcCatBack').textContent = item.cat;
     document.getElementById('fcQuestion').textContent = item.q;
     document.getElementById('fcAnswer').textContent = item.a;
-    document.getElementById('fcProgress').textContent = `Card ${pos+1} of ${questions.length}`;
+    document.getElementById('fcProgress').textContent = `Card ${pos+1} of ${order.length}`;
   };
   const nextCard = () => {
     pos += 1;
-    if(pos >= order.length){ order = shuffle(questions.map((_,i)=>i)); pos = 0; }
+    if(pos >= order.length){ order = shuffle(activeDeck); pos = 0; }
     showCard();
   };
-  order = shuffle(questions.map((_,i)=>i));
-  showCard();
+  const rebuildDeck = () => {
+    const chosen = categorySelect.value;
+    activeDeck = chosen === "All Categories"
+      ? questions.map((_, i) => i)
+      : questions.map((_, i) => i).filter(i => questions[i].cat === chosen);
+    order = shuffle(activeDeck);
+    pos = 0;
+    showCard();
+  };
+  categorySelect.addEventListener('change', rebuildDeck);
+  rebuildDeck();
   document.getElementById('fcShuffle').addEventListener('click', (e) => { e.stopPropagation(); nextCard(); });
 </script>
 
