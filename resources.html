@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources - Banking at UVA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --navy-950:#0A101F; --navy-800:#152444; --navy-700:#1F335E;
+    --orange:#E57200; --orange-soft:#F5A455;
+    --paper:#F7F4EC; --paper-dim:#EDE8DB;
+    --ink:#152444; --slate:#8393B3; --slate-dark:#4C5A7A;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--sans); background:var(--paper); color:var(--ink); -webkit-font-smoothing:antialiased;}
+  a{color:inherit; text-decoration:none;}
+  @media (prefers-reduced-motion: reduce){ *{animation-duration:0.001ms !important; scroll-behavior:auto !important;} }
+
+  nav{display:flex; align-items:center; justify-content:space-between; padding:22px 6vw; background:var(--navy-950);}
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{width:30px; height:30px;}
+  .brand-text{font-family:var(--serif); font-weight:700; font-size:18px; color:var(--paper); letter-spacing:0.02em;}
+  .brand-text em{font-style:normal; color:var(--orange);}
+  .nav-links{display:flex; gap:28px; font-size:14px; color:var(--slate);}
+  .nav-links a:hover{color:var(--orange-soft);}
+  .nav-cta{font-family:var(--mono); font-size:12.5px; color:var(--navy-950); background:var(--orange); padding:9px 18px; border-radius:2px; letter-spacing:0.03em;}
+  .nav-cta:hover{background:var(--orange-soft);}
+
+  header.hero{background:var(--navy-950); padding:80px 6vw 90px;}
+  .hero-inner{max-width:700px;}
+  .eyebrow{font-family:var(--mono); font-size:12.5px; color:var(--orange); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:22px; display:block;}
+  h1.hero-title{font-family:var(--serif); font-weight:700; font-size:clamp(34px,4.6vw,52px); color:var(--paper); line-height:1.1; letter-spacing:-0.01em; margin-bottom:22px;}
+  .hero-sub{font-size:16.5px; color:var(--slate); line-height:1.65; max-width:560px;}
+
+  section{padding:70px 6vw;}
+  .section-head{max-width:680px; margin-bottom:40px;}
+  .section-eyebrow{font-family:var(--mono); font-size:12px; color:var(--orange); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:14px; display:block;}
+  h2{font-family:var(--serif); font-weight:700; font-size:clamp(24px,3vw,32px); letter-spacing:-0.01em; color:var(--ink);}
+  .section-desc{font-size:15px; color:var(--slate-dark); line-height:1.65; margin-top:14px;}
+
+  .res-list{max-width:900px;}
+  .res-item{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:24px;
+    padding:24px 0; border-bottom:1px solid rgba(21,36,68,0.12);
+  }
+  .res-item:first-child{padding-top:0;}
+  .res-main{max-width:640px;}
+  .res-name{font-family:var(--serif); font-weight:700; font-size:19px; color:var(--ink); margin-bottom:6px;}
+  .res-desc{font-size:14px; color:var(--slate-dark); line-height:1.6;}
+  .res-type{
+    font-family:var(--mono); font-size:10.5px; color:var(--orange); letter-spacing:0.06em;
+    text-transform:uppercase; white-space:nowrap; padding-top:4px;
+  }
+
+  .note{background:var(--paper-dim); border-left:3px solid var(--orange); padding:20px 26px; max-width:900px; font-size:13.5px; color:var(--slate-dark); line-height:1.65; margin-top:30px;}
+  .note strong{color:var(--ink);}
+
+  .cta-band{background:var(--navy-800);}
+  .cta-inner{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:26px;}
+  .cta-band h2{color:var(--paper);}
+  .cta-band .section-desc{color:var(--slate); max-width:480px;}
+  .btn-primary{font-family:var(--mono); font-size:13px; letter-spacing:0.03em; background:var(--orange); color:var(--navy-950); padding:14px 26px; border-radius:2px; display:inline-block;}
+  .btn-primary:hover{background:var(--orange-soft);}
+
+  footer{background:var(--navy-950); padding:26px 6vw; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; border-top:1px solid rgba(131,147,179,0.15);}
+  footer p{font-family:var(--mono); font-size:11.5px; color:var(--slate);}
+
+  @media(max-width:820px){
+    .nav-links{display:none;}
+    .res-item{flex-direction:column; gap:6px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 100 100"><rect x="15" y="30" width="70" height="3" fill="#F7F4EC"/><rect x="20" y="36" width="6" height="20" fill="#E57200"/><rect x="32" y="36" width="6" height="20" fill="#F7F4EC"/><rect x="44" y="36" width="6" height="20" fill="#E57200"/><rect x="56" y="36" width="6" height="20" fill="#F7F4EC"/><rect x="68" y="36" width="6" height="20" fill="#E57200"/><rect x="15" y="59" width="70" height="3" fill="#F7F4EC"/></svg>
+    <div class="brand-text">BANKING <em>AT UVA</em></div>
+  </div>
+  <div class="nav-links">
+    <a href="index.html#mission">Mission</a>
+    <a href="index.html#practice">Flashcards</a>
+    <a href="recruiting-timeline.html">Timeline</a>
+    <a href="deal-library.html">Deal Library</a>
+    <a href="resources.html">Resources</a>
+  </div>
+  <a class="nav-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSfQKwg-F-fTvtFpcysWsIJ4MhFimK2CAPU0x_6W_IVzx9skSw/viewform?usp=publish-editor" target="_blank" rel="noopener">JOIN →</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Free Resource</span>
+    <h1 class="hero-title">Resources</h1>
+    <p class="hero-sub">A curated starting point for recruiting prep, organized by what you're working on. Not exhaustive, just the resources actually worth your time.</p>
+  </div>
+</header>
+
+<section id="technical">
+  <div class="section-head">
+    <span class="section-eyebrow">Technical Prep</span>
+    <h2>Accounting, valuation, and modeling</h2>
+  </div>
+  <div class="res-list">
+    <div class="res-item">
+      <div class="res-main">
+        <div class="res-name">Investment Banking: Valuation, LBOs, M&amp;A, and IPOs</div>
+        <div class="res-desc">By Joshua Rosenbaum and Joshua Pearl. The standard technical reference most recruiters expect you to have worked through at least once, covering comps, precedents, DCF, LBOs, and M&A analysis.</div>
+      </div>
+      <div class="res-type">Book</div>
+    </div>
+    <div class="res-item">
+      <div class="res-main">
+        <div class="res-name">Breaking Into Wall Street</div>
+        <div class="res-desc">Paid modeling courses covering financial statement modeling, valuation, and LBO modeling, built specifically around interview and on-the-job scenarios.</div>
+      </div>
+      <div class="res-type">Course</div>
+    </div>
+    <div class="res-item">
+      <div class="res-main">
+        <div class="res-name">Wall Street Prep</div>
+        <div class="res-desc">Similar modeling-focused courses, often used as a supplement to a finance curriculum, with a strong reputation for LBO and M&A modeling specifically.</div>
+      </div>
+      <div class="res-type">Course</div>
+    </div>
+    <div class="res-item">
+      <div class="res-main">
+        <div class="res-name">Corporate Finance Institute (CFI)</div>
+        <div class="res-desc">Free and paid modules covering financial modeling fundamentals, useful as a lighter-weight starting point before committing to a paid course.</div>
+      </div>
+      <div class="res-type">Free / Paid</div>
+    </div>
+    <div class="res-item">
+      <div class="res-main">
+        <div class="res-name">Banking at UVA Flashcards</div>
+        <div class="res-desc">Our own free flashcard set, covering accounting, valuation, M&A, LBO, markets, and behavioral questions, organized by category.</div>
+      </div>
+      <div class="res-type">Free</div>
+    </div>
+  </div>
+</section>
+
+<section id="behavioral">
+  <div class="section-head">
+    <span class="section-eyebrow">Behavioral &amp; Networking</span>
+    <h2>Fit, story, and outreach</h2>
+  </div>
+  <div class="res-list">
+    <div class="res-item">
+      <div class="res-main">
+        <div class="res-name">Wall Street Oasis (WSO)</div>
+        <div class="res-desc">A large community forum with interview experience threads, compensation reports, and firm-specific recruiting insight. Useful for pattern-matching what to expect at specific banks, though treat individual anecdotes with some skepticism.</div>
+      </div>
+      <div class="res-type">Community</div>
+    </div>
+    <div class="res-item">
+      <div class="res-main">
+        <div class="res-name">Vault Guide to Investment Banking</div>
+        <div class="res-desc">An industry overview covering firm cultures, group structures, and the day-to-day of the job, useful groundwork before networking calls so your questions sound informed.</div>
+      </div>
+      <div class="res-type">Guide</div>
+    </div>
+    <div class="res-item">
+      <div class="res-main">
+        <div class="res-name">LinkedIn alumni search</div>
+        <div class="res-desc">Filtering LinkedIn by your school and target firms is still one of the highest-yield ways to build a networking list. Pair it with a short, specific outreach message rather than a generic template.</div>
+      </div>
+      <div class="res-type">Tool</div>
+    </div>
+  </div>
+</section>
+
+<section id="markets">
+  <div class="section-head">
+    <span class="section-eyebrow">Markets Awareness</span>
+    <h2>Staying current</h2>
+  </div>
+  <div class="res-list">
+    <div class="res-item">
+      <div class="res-main">
+        <div class="res-name">The Wall Street Journal</div>
+        <div class="res-desc">Daily reading habit worth building early. Interviewers regularly ask about a recent deal or market development, and a specific, informed answer stands out.</div>
+      </div>
+      <div class="res-type">News</div>
+    </div>
+    <div class="res-item">
+      <div class="res-main">
+        <div class="res-name">Banking at UVA Deal Library</div>
+        <div class="res-desc">Our own breakdown of real, recent M&A transactions, structured the way you'd actually discuss a deal in an interview.</div>
+      </div>
+      <div class="res-type">Free</div>
+    </div>
+    <div class="res-item">
+      <div class="res-main">
+        <div class="res-name">SEC EDGAR</div>
+        <div class="res-desc">The source for real 10-K and 10-Q filings. Reading one filing closely for a company you're interested in gives you more useful, specific knowledge than reading dozens of summaries.</div>
+      </div>
+      <div class="res-type">Tool</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>How to use this list:</strong> you don't need every resource on this page. Pick one technical resource and go deep, use WSO and alumni outreach to understand specific firms, and build a daily habit of markets reading. Depth in a few places beats breadth across all of them.
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <div>
+      <span class="section-eyebrow">Get Involved</span>
+      <h2>Want structured support instead?</h2>
+      <p class="section-desc">Join Banking at UVA for weekly training, alumni access, and mentorship through the whole process.</p>
+    </div>
+    <a class="btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSfQKwg-F-fTvtFpcysWsIJ4MhFimK2CAPU0x_6W_IVzx9skSw/viewform?usp=publish-editor" target="_blank" rel="noopener">Join Banking at UVA</a>
+    </div>
+</section>
+
+<footer>
+  <p>BANKING AT UVA</p>
+  <p>UNIVERSITY OF VIRGINIA</p>
+</footer>
+
+</body>
+</html>
