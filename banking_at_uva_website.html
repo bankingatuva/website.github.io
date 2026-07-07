@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banking at UVA</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --navy-950:#0A101F;
+    --navy-800:#152444;
+    --navy-700:#1F335E;
+    --orange:#E57200;
+    --orange-soft:#F5A455;
+    --paper:#F7F4EC;
+    --paper-dim:#EDE8DB;
+    --ink:#152444;
+    --slate:#8393B3;
+    --slate-dark:#4C5A7A;
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Inter', -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--sans);
+    background:var(--paper);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important;}
+  }
+
+  /* ---------- Ticker ---------- */
+  .ticker-wrap{
+    background:var(--navy-950);
+    border-bottom:1px solid rgba(229,114,0,0.25);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:9px 0;
+  }
+  .ticker-track{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.02em;
+    animation:scroll-left 38s linear infinite;
+    color:var(--orange-soft);
+  }
+  .ticker-track span{margin-right:48px;}
+  .ticker-track .up{color:#5FCF8E;}
+  .ticker-track .flat{color:var(--slate);}
+  @keyframes scroll-left{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+
+  /* ---------- Nav ---------- */
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 6vw;
+    background:var(--navy-950);
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{width:30px; height:30px;}
+  .brand-text{font-family:var(--serif); font-weight:700; font-size:18px; color:var(--paper); letter-spacing:0.02em;}
+  .brand-text em{font-style:normal; color:var(--orange);}
+  .nav-links{display:flex; gap:34px; font-size:14px; color:var(--slate);}
+  .nav-links a:hover{color:var(--orange-soft);}
+  .nav-toggle{display:none; background:none; border:none; cursor:pointer; padding:6px; flex-direction:column; gap:5px; z-index:20;}
+  .nav-toggle span{display:block; width:22px; height:2px; background:var(--paper); transition:transform 0.2s, opacity 0.2s;}
+  .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-toggle.open span:nth-child(2){opacity:0;}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu{display:none; flex-direction:column; background:var(--navy-950); padding:6px 6vw 22px; border-top:1px solid rgba(131,147,179,0.15);}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{color:var(--slate); font-size:16px; padding:14px 0; border-bottom:1px solid rgba(131,147,179,0.12);}
+  .mobile-menu a:last-child{border-bottom:none;}
+  .nav-cta{
+    font-family:var(--mono); font-size:12.5px; color:var(--navy-950);
+    background:var(--orange); padding:9px 18px; border-radius:2px;
+    letter-spacing:0.03em;
+  }
+  .nav-cta:hover{background:var(--orange-soft);}
+
+  /* ---------- Hero ---------- */
+  header.hero{
+    background:var(--navy-950);
+    padding:90px 6vw 110px;
+    position:relative;
+    overflow:hidden;
+  }
+  .columns-graphic{
+    position:absolute; top:0; right:6vw; height:100%;
+    display:flex; gap:14px; opacity:0.55;
+  }
+  .columns-graphic div{width:9px; background:linear-gradient(180deg, var(--orange) 0%, transparent 85%); opacity:0.35;}
+  .hero-inner{max-width:640px; position:relative; z-index:1;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; color:var(--orange);
+    letter-spacing:0.12em; text-transform:uppercase; margin-bottom:22px;
+    display:block;
+  }
+  h1.hero-title{
+    font-family:var(--serif); font-weight:700; font-size:clamp(38px,5.2vw,60px);
+    color:var(--paper); line-height:1.05; letter-spacing:-0.01em; margin-bottom:26px;
+  }
+  h1.hero-title .accent{color:var(--orange);}
+  .hero-sub{
+    font-size:17px; color:var(--slate); line-height:1.6; max-width:520px; margin-bottom:38px;
+  }
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn-primary{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.03em;
+    background:var(--orange); color:var(--navy-950); padding:14px 26px; border-radius:2px;
+    display:inline-block; transition:background 0.15s;
+  }
+  .btn-primary:hover{background:var(--orange-soft);}
+  .btn-secondary{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.03em;
+    border:1px solid var(--slate-dark); color:var(--paper); padding:13px 25px; border-radius:2px;
+    display:inline-block; transition:border-color 0.15s, color 0.15s;
+  }
+  .btn-secondary:hover{border-color:var(--orange); color:var(--orange-soft);}
+
+  /* ---------- Section shell ---------- */
+  section{padding:86px 6vw;}
+  .section-head{max-width:640px; margin-bottom:52px;}
+  .section-eyebrow{
+    font-family:var(--mono); font-size:12px; color:var(--orange); letter-spacing:0.1em;
+    text-transform:uppercase; margin-bottom:14px; display:block;
+  }
+  h2{
+    font-family:var(--serif); font-weight:700; font-size:clamp(26px,3.2vw,36px);
+    letter-spacing:-0.01em; color:var(--ink);
+  }
+  .section-desc{font-size:15.5px; color:var(--slate-dark); line-height:1.65; margin-top:14px;}
+
+  /* ---------- Mission pillars ---------- */
+  .pillars{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+  .pillar{
+    border-top:2px solid var(--navy-800); padding-top:20px;
+  }
+  .pillar-num{font-family:var(--mono); font-size:12px; color:var(--orange); letter-spacing:0.06em;}
+  .pillar h3{font-family:var(--serif); font-size:19px; font-weight:600; margin:10px 0 10px; color:var(--ink);}
+  .pillar p{font-size:14.5px; color:var(--slate-dark); line-height:1.6;}
+
+  /* ---------- News ---------- */
+  .news-section{background:var(--navy-950);}
+  .news-section .section-desc, .news-section h2, .news-section .section-eyebrow{color:var(--paper);}
+  .news-section .section-eyebrow{color:var(--orange);}
+  .news-section .section-desc{color:var(--slate);}
+  .news-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(131,147,179,0.2);}
+  .news-card{background:var(--navy-950); padding:28px 24px;}
+  .news-date{font-family:var(--mono); font-size:11.5px; color:var(--orange-soft); letter-spacing:0.05em;}
+  .news-tag{
+    font-family:var(--mono); font-size:10.5px; color:var(--slate); letter-spacing:0.08em;
+    border:1px solid var(--slate-dark); padding:2px 8px; border-radius:10px; margin-left:10px;
+  }
+  .news-card h3{
+    font-family:var(--serif); font-size:18px; font-weight:600; color:var(--paper);
+    margin:14px 0 10px; line-height:1.3;
+  }
+  .news-card p{font-size:13.5px; color:var(--slate); line-height:1.6;}
+
+  /* ---------- Flashcards ---------- */
+  .fc-filter-row{display:flex; align-items:center; gap:14px; margin-bottom:22px;}
+  .fc-filter-label{
+    font-family:var(--mono); font-size:11.5px; color:var(--slate-dark); letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  .fc-select{
+    font-family:var(--mono); font-size:13px; color:var(--ink); background:#fff;
+    border:1px solid rgba(21,36,68,0.25); border-radius:2px; padding:9px 14px;
+    cursor:pointer; letter-spacing:0.02em;
+  }
+  .fc-select:focus{outline:2px solid var(--orange); outline-offset:1px;}
+  .flashcard-wrap{max-width:640px;}
+  .flashcard{
+    perspective:1400px; height:280px; cursor:pointer; margin-bottom:24px;
+  }
+  .flashcard-inner{
+    position:relative; width:100%; height:100%; text-align:left;
+    transition:transform 0.5s; transform-style:preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner{transform:rotateY(180deg);}
+  .flashcard-face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    border:1px solid rgba(21,36,68,0.18); border-radius:4px;
+    padding:34px 38px; display:flex; flex-direction:column; justify-content:center;
+    background:#fff; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  }
+  .flashcard-front{background:#fff;}
+  .flashcard-back{transform:rotateY(180deg); background:var(--navy-800);}
+  .flashcard-back .fc-text{color:var(--paper);}
+  .flashcard-back .fc-cat{color:var(--orange-soft);}
+  .flashcard-back .fc-hint{color:var(--slate);}
+  .fc-cat{
+    font-family:var(--mono); font-size:11px; color:var(--orange); letter-spacing:0.08em;
+    text-transform:uppercase; margin-bottom:16px;
+  }
+  .fc-text{font-family:var(--serif); font-size:21px; line-height:1.45; color:var(--ink); font-weight:600;}
+  .fc-hint{
+    font-family:var(--mono); font-size:11px; color:var(--slate-dark); letter-spacing:0.04em;
+    margin-top:20px;
+  }
+  .flashcard-controls{display:flex; align-items:center; gap:20px;}
+  .fc-progress{font-family:var(--mono); font-size:12px; color:var(--slate-dark); letter-spacing:0.04em;}
+  .fc-shuffle{cursor:pointer; border-color:var(--navy-800); color:var(--ink); background:none;}
+  .fc-shuffle:hover{border-color:var(--orange); color:var(--orange);}
+  @media(max-width:820px){
+    .flashcard{height:380px;}
+    .flashcard-face{padding:24px 22px; justify-content:flex-start; padding-top:32px;}
+    .fc-text{font-size:17px; line-height:1.5;}
+    .fc-cat{font-size:10px; margin-bottom:10px;}
+    .fc-hint{font-size:10px; margin-top:14px;}
+  }
+  @media(max-width:420px){
+    .flashcard{height:420px;}
+    .fc-text{font-size:16px;}
+  }
+
+  /* ---------- Join / footer ---------- */
+  .join{background:var(--navy-800); text-align:left;}
+  .join-inner{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:30px;}
+  .join h2{color:var(--paper);}
+  .join .section-desc{color:var(--slate); max-width:480px;}
+  footer{
+    background:var(--navy-950); padding:26px 6vw; display:flex; justify-content:space-between;
+    align-items:center; flex-wrap:wrap; gap:14px; border-top:1px solid rgba(131,147,179,0.15);
+  }
+  footer p{font-family:var(--mono); font-size:11.5px; color:var(--slate);}
+
+  @media(max-width:820px){
+    .pillars{grid-template-columns:1fr;}
+    .news-grid{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .nav-toggle{display:flex;}
+    .q-cat{display:none;}
+    .q-answer{padding-left:38px;}
+    .q-item.open .q-answer{padding-left:38px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker-wrap">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<nav>
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 100 100"><rect x="15" y="30" width="70" height="3" fill="#F7F4EC"/><rect x="20" y="36" width="6" height="20" fill="#E57200"/><rect x="32" y="36" width="6" height="20" fill="#F7F4EC"/><rect x="44" y="36" width="6" height="20" fill="#E57200"/><rect x="56" y="36" width="6" height="20" fill="#F7F4EC"/><rect x="68" y="36" width="6" height="20" fill="#E57200"/><rect x="15" y="59" width="70" height="3" fill="#F7F4EC"/></svg>
+    <div class="brand-text">BANKING <em>AT UVA</em></div>
+  </div>
+  <div class="nav-links">
+    <a href="#mission">Mission</a>
+    <a href="#news">News</a>
+    <a href="#practice">Practice</a>
+    <a href="recruiting-timeline.html">Timeline</a>
+    <a href="deal-library.html">Deal Library</a>
+    <a href="resources.html">Resources</a>
+  </div>
+  <a class="nav-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSfQKwg-F-fTvtFpcysWsIJ4MhFimK2CAPU0x_6W_IVzx9skSw/viewform?usp=publish-editor" target="_blank" rel="noopener">JOIN →</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#mission">Mission</a>
+  <a href="#news">News</a>
+  <a href="#practice">Practice</a>
+  <a href="recruiting-timeline.html">Timeline</a>
+  <a href="deal-library.html">Deal Library</a>
+  <a href="resources.html">Resources</a>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQKwg-F-fTvtFpcysWsIJ4MhFimK2CAPU0x_6W_IVzx9skSw/viewform?usp=publish-editor" target="_blank" rel="noopener">Join Banking at UVA →</a>
+</div>
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    navToggle.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', false);
+  }));
+</script>
+
+<header class="hero">
+  <div class="columns-graphic">
+    <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+  <div class="hero-inner">
+    <span class="eyebrow">University of Virginia</span>
+    <h1 class="hero-title">Investment banking,<br><span class="accent">taught right.</span></h1>
+    <p class="hero-sub">Making investment banking accessible to every student with the drive to succeed, through technical training, alumni access, and mentorship. The only club at UVA built exclusively for IB recruiting prep.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSfQKwg-F-fTvtFpcysWsIJ4MhFimK2CAPU0x_6W_IVzx9skSw/viewform?usp=publish-editor" target="_blank" rel="noopener">Join Banking at UVA</a>
+      <a class="btn-secondary" href="#practice">Try a practice question</a>
+    </div>
+  </div>
+</header>
+
+<section id="mission">
+  <div class="section-head">
+    <span class="section-eyebrow">Mission</span>
+    <h2>Three things we actually do</h2>
+    <p class="section-desc">Not a general finance club. Every meeting, every resource, and every relationship we build serves one goal: getting members recruiting-ready for investment banking.</p>
+  </div>
+  <div class="pillars">
+    <div class="pillar">
+      <span class="pillar-num">01 · Training</span>
+      <h3>Technical & behavioral prep</h3>
+      <p>Weekly sessions covering the accounting, valuation, and modeling questions that come up in real interviews, plus the behavioral prep most students skip.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">02 · Access</span>
+      <h3>Alumni speakers</h3>
+      <p>Direct sessions with UVA alumni working in investment banking, real perspective from people who've been through recruiting recently.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">03 · Mentorship</span>
+      <h3>Paired guidance</h3>
+      <p>Every member gets matched with an alumnus or upperclassman for ongoing support through the recruiting process, not just a single session.</p>
+    </div>
+  </div>
+</section>
+
+<section class="news-section" id="news">
+  <div class="section-head">
+    <span class="section-eyebrow">Deal Tape</span>
+    <h2>Recent M&A transactions</h2>
+    <p class="section-desc">A running look at real deals shaping the market this year. Updated as new transactions are announced.</p>
+  </div>
+  <div class="news-grid" id="newsGrid"></div>
+</section>
+
+<section id="practice">
+  <div class="section-head">
+    <span class="section-eyebrow">Free Resource</span>
+    <h2>Technical flashcards</h2>
+    <p class="section-desc">A randomized set of the questions we drill in weekly sessions. Click the card to flip it, then shuffle for a new one.</p>
+  </div>
+  <div class="flashcard-wrap">
+    <div class="fc-filter-row">
+      <label class="fc-filter-label" for="fcCategory">Category</label>
+      <select id="fcCategory" class="fc-select"></select>
+    </div>
+    <div class="flashcard" id="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+          <span class="fc-cat" id="fcCatFront"></span>
+          <p class="fc-text" id="fcQuestion"></p>
+          <span class="fc-hint">Click to reveal answer</span>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <span class="fc-cat" id="fcCatBack"></span>
+          <p class="fc-text" id="fcAnswer"></p>
+          <span class="fc-hint">Click to flip back</span>
+        </div>
+      </div>
+    </div>
+    <div class="flashcard-controls">
+      <span class="fc-progress" id="fcProgress"></span>
+      <button class="btn-secondary fc-shuffle" id="fcShuffle" type="button">Shuffle · next card</button>
+    </div>
+  </div>
+</section>
+
+<section class="join" id="join">
+  <div class="join-inner">
+    <div>
+      <span class="section-eyebrow">Join Us</span>
+      <h2>Ready to start recruiting-ready?</h2>
+      <p class="section-desc">Fill out the form to join Banking at UVA, or reach out to learn more about upcoming sessions.</p>
+    </div>
+    <a class="btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSfQKwg-F-fTvtFpcysWsIJ4MhFimK2CAPU0x_6W_IVzx9skSw/viewform?usp=publish-editor" target="_blank" rel="noopener">Fill out the join form</a>
+  </div>
+</section>
+
+<footer>
+  <p>BANKING AT UVA</p>
+  <p>UNIVERSITY OF VIRGINIA</p>
+</footer>
+
+<script>
+  const newsTicker = [
+    {text:"QUALCOMM TO ACQUIRE MODULAR, ~$4.0B", type:"up"},
+    {text:"SAFRAN TO ACQUIRE EXAIL TECHNOLOGIES, €2.19B", type:"up"},
+    {text:"BRIDGEPOINT TO ACQUIRE KAYNE ANDERSON REAL ESTATE, $1.39B", type:"flat"},
+    {text:"ONSEMI TO ACQUIRE SYNAPTICS", type:"flat"},
+    {text:"ADOBE TO ACQUIRE TOPAZ LABS", type:"up"},
+    {text:"SPACEX AND XAI TO MERGE, ~$1.25T COMBINED", type:"up"},
+  ];
+  const track = document.getElementById('tickerTrack');
+  const buildTicker = () => newsTicker.map(n => `<span class="${n.type}">${n.type==='up' ? '▲' : '●'} ${n.text}</span>`).join('');
+  track.innerHTML = buildTicker() + buildTicker();
+
+  const deals = [
+    {tag:"Technology", value:"~$4.0B", title:"Qualcomm to acquire Modular", desc:"Qualcomm moves further into AI infrastructure, adding Modular's software stack for running AI models more efficiently across chips."},
+    {tag:"Aerospace & Defense", value:"€2.19B", title:"Safran to acquire Exail Technologies", desc:"Safran expands into autonomous naval systems and advanced navigation technology."},
+    {tag:"Real Estate", value:"$1.39B", title:"Bridgepoint to acquire Kayne Anderson Real Estate", desc:"A private equity consolidation move in the real estate investment management space."},
+    {tag:"Semiconductors", value:"Undisclosed", title:"onsemi to acquire Synaptics", desc:"onsemi adds Synaptics' intelligent sensing and connectivity technology to build out next generation physical AI systems."},
+    {tag:"Software", value:"Undisclosed", title:"Adobe to acquire Topaz Labs", desc:"Adobe expands its AI-powered creative tools by bringing Topaz Labs' image and video enhancement technology in house."},
+    {tag:"Aerospace & AI", value:"~$1.25T combined", title:"SpaceX and xAI to merge", desc:"One of the largest M&A transactions on record combines SpaceX's compute, satellite, and launch infrastructure with xAI's foundation model research, uniting the two Musk-controlled companies under one entity."},
+  ];
+  const newsGrid = document.getElementById('newsGrid');
+  newsGrid.innerHTML = deals.map(d => `
+    <div class="news-card">
+      <span class="news-date">${d.value} <span class="news-tag">${d.tag}</span></span>
+      <h3>${d.title}</h3>
+      <p>${d.desc}</p>
+    </div>
+  `).join('');
+
+  const questions = [
+    // Accounting
+    {cat:"Accounting", q:"Walk me through the three financial statements.", a:"The income statement shows revenue, expenses, and net income over a period. The balance sheet shows assets, liabilities, and equity at a point in time. The cash flow statement shows cash generated and used across operating, investing, and financing activities. Net income flows into retained earnings on the balance sheet and is the starting point for the cash flow statement."},
+    {cat:"Accounting", q:"If depreciation increases by $10, what happens to the three statements?", a:"On the income statement, pre-tax income falls by $10, and net income falls by $10 times one minus the tax rate. On the cash flow statement, net income is down, but depreciation is a non-cash expense added back, so cash from operations actually increases by $10 times the tax rate. On the balance sheet, PP&E decreases by $10, cash increases by the tax savings, and retained earnings falls by the net income decrease, so both sides stay in balance."},
+    {cat:"Accounting", q:"What is working capital and why does it matter in M&A?", a:"Working capital is current assets minus current liabilities, mainly receivables, inventory, and payables. In M&A it matters because deals typically include a target working capital level in the purchase agreement, and the purchase price gets adjusted up or down if actual working capital at close differs from that target."},
+    {cat:"Accounting", q:"Walk me through how an increase in accounts receivable affects the three statements.", a:"The income statement is unaffected since revenue was already recognized. On the cash flow statement, the increase in receivables is a use of cash, so cash from operations decreases. On the balance sheet, receivables increase, so total assets go up, and cash goes down by the same amount, keeping the balance sheet in balance."},
+    {cat:"Accounting", q:"What's the difference between accrual accounting and cash accounting?", a:"Accrual accounting recognizes revenue and expenses when they are earned or incurred, regardless of when cash actually changes hands. Cash accounting recognizes them only when cash is received or paid. Public companies are required to use accrual accounting under GAAP, which is why net income and cash flow can differ significantly."},
+    {cat:"Accounting", q:"What's the difference between EBIT and EBITDA, and why do bankers prefer EBITDA?", a:"EBIT is earnings before interest and taxes, so it still includes depreciation and amortization. EBITDA adds D&A back on top of that. Bankers prefer EBITDA as a proxy for cash flow and for comparing companies because it strips out differences in capital structure, tax rates, and non-cash accounting choices that can distort comparisons between companies."},
+    {cat:"Accounting", q:"If a company writes off $50 of goodwill, what happens to each statement?", a:"On the income statement, an impairment expense of $50 reduces pre-tax income, and net income falls, though goodwill impairments are often non-deductible so there may be no tax effect. On the cash flow statement, the impairment is a non-cash charge, so it gets added back, meaning cash from operations is unaffected. On the balance sheet, goodwill decreases by $50 and retained earnings decreases by the same amount, keeping both sides balanced."},
+    {cat:"Accounting", q:"What's the difference between a deferred tax asset and a deferred tax liability?", a:"A deferred tax asset arises when a company has paid more tax than its book income suggests it owes, often from losses it can use to offset future taxes, and represents a future tax benefit. A deferred tax liability arises when a company has paid less tax than book income suggests, often from accelerated tax depreciation, and represents taxes that will come due in the future."},
+    {cat:"Accounting", q:"How do operating leases and finance leases differ, and where do they show up on the balance sheet?", a:"Under current accounting standards, both types of leases are generally recorded on the balance sheet as a right-of-use asset and a corresponding lease liability. The main difference is in the income statement, a finance lease splits expense into interest and amortization, similar to owning a financed asset, while an operating lease records a single, straight-line lease expense."},
+    {cat:"Accounting", q:"If a company raises $100 of debt and uses it to buy back stock, walk through the three statements.", a:"The income statement eventually shows higher interest expense, reducing net income. On the cash flow statement, the $100 debt raise is a financing inflow, and the stock buyback is a financing outflow, so they largely offset, with no net change to the cash balance itself beyond any timing difference. On the balance sheet, debt increases by $100, and equity decreases by $100 from the buyback, along with the corresponding drop in cash, so the balance sheet still balances."},
+    {cat:"Accounting", q:"What is negative working capital, and is it necessarily a red flag?", a:"Negative working capital means current liabilities exceed current assets. It isn't automatically a red flag, some business models, like retailers or subscription businesses that collect cash upfront and pay suppliers later, operate efficiently with negative working capital. It becomes concerning when it signals an inability to pay short term obligations rather than a deliberate, efficient cash conversion cycle."},
+    {cat:"Accounting", q:"Why can a company be profitable on paper but still run out of cash?", a:"Net income includes non-cash items and accrual-based revenue recognition that don't reflect actual cash movement. A company can report strong profit while cash is tied up in growing receivables or inventory, or while spending heavily on capital expenditures or debt repayment that doesn't appear on the income statement at all."},
+
+    {cat:"Valuation", q:"What's the difference between levered and unlevered beta, and why do you unlever and relever it?", a:"Levered beta reflects a company's stock price volatility including the effect of its specific capital structure and debt load. Unlevered beta strips out that capital structure effect, isolating the business or industry risk alone. In a WACC calculation, you typically take comparable companies' levered betas, unlever them to find the pure business risk, average that, and then relever using your target company's own capital structure, since capital structures differ across comps."},
+    {cat:"Valuation", q:"Why might you use a sum-of-the-parts valuation?", a:"Sum-of-the-parts is used when a company has multiple distinct business segments that would each be valued differently by the market, for example a conglomerate with a stable industrial division and a high growth technology division. Valuing each segment separately with its own appropriate multiple or DCF, then adding them together, gives a more accurate picture than applying one blended multiple to the whole company."},
+    {cat:"Valuation", q:"What is the equity risk premium, and where does the number come from?", a:"The equity risk premium is the additional return investors demand for holding stocks over a risk-free asset like government bonds, compensating them for taking on equity risk. It's typically estimated using long run historical average stock returns minus historical risk-free rates, though estimates vary by source and methodology."},
+    {cat:"Valuation", q:"How does net debt affect the bridge from enterprise value to equity value?", a:"Equity value equals enterprise value minus net debt, where net debt is total debt minus cash and cash equivalents. A company with more cash than debt has negative net debt, which means equity value is actually higher than enterprise value, since that excess cash belongs to shareholders."},
+    {cat:"Valuation", q:"What is a football field chart, and why is it used?", a:"A football field chart displays a range of valuations for a company side by side, one bar for each methodology, such as trading comps, precedent transactions, and a DCF, each shown as a range rather than a single number. It's used to visually communicate a defensible valuation range rather than relying on any single method's output."},
+    {cat:"Valuation", q:"Why would you use EV to Revenue instead of EV to EBITDA for certain companies?", a:"EV to Revenue is used when EBITDA is negative or not meaningful, which is common for early stage or high growth companies still investing heavily and not yet profitable. It's a rougher proxy since it ignores cost structure entirely, but it allows for comparison when profitability based multiples would be distorted or unusable."},
+
+    {cat:"M&A", q:"What is a collar in a stock-for-stock deal?", a:"A collar sets a range within which the exchange ratio between acquirer and target shares can adjust based on the acquirer's stock price before closing, protecting both sides from extreme swings in the acquirer's share price between signing and closing. Outside the collar's range, the exchange ratio is typically fixed rather than continuing to float."},
+    {cat:"M&A", q:"What's the difference between a friendly and a hostile takeover?", a:"In a friendly takeover, the target's board supports the deal and recommends it to shareholders. In a hostile takeover, the acquirer bypasses or goes around a resistant board, often by appealing directly to shareholders through a tender offer or by attempting to replace the board through a proxy fight."},
+    {cat:"M&A", q:"What is a fairness opinion, and who provides it?", a:"A fairness opinion is a professional assessment, usually from an investment bank, stating whether the financial terms of a proposed transaction are fair to shareholders from a financial point of view. It's often required by a target's board to help satisfy their fiduciary duty and protect against shareholder lawsuits."},
+    {cat:"M&A", q:"Why might regulators block a merger?", a:"Regulators typically intervene on antitrust grounds, when a deal would meaningfully reduce competition in a market, create a monopoly or near monopoly, or harm consumers through higher prices or reduced choice. National security concerns can also block deals, particularly in cross-border transactions involving critical infrastructure or technology."},
+
+    {cat:"LBO", q:"What is a dividend recapitalization?", a:"A dividend recap is when a private equity owned company takes on additional debt in order to pay a special dividend out to the sponsor, allowing the sponsor to realize some return on its investment before a full exit. It increases the company's leverage without changing ownership."},
+    {cat:"LBO", q:"What's the difference between senior debt and subordinated debt in an LBO capital structure?", a:"Senior debt sits higher in the capital structure and gets repaid first in a default or liquidation, and typically carries lower interest rates and stricter covenants as a result. Subordinated debt, sometimes called mezzanine debt, is repaid after senior debt, carries more risk, and therefore demands a higher interest rate."},
+    {cat:"LBO", q:"What are covenants, and why do lenders require them?", a:"Covenants are conditions written into a loan agreement that restrict what the borrower can do, such as maintaining a minimum interest coverage ratio or a maximum leverage ratio. Lenders require them to protect their position, giving them an early warning and the ability to intervene if the company's financial health deteriorates."},
+    {cat:"LBO", q:"What is a management rollover, and why do sponsors want it?", a:"A management rollover is when existing management reinvests a portion of their proceeds from the sale back into equity of the newly acquired company rather than cashing out entirely. Sponsors want this because it aligns management's incentives with the sponsor's, since management now has skin in the game for the business to perform well under the new ownership."},
+
+    {cat:"Markets", q:"What's the difference between systematic and unsystematic risk?", a:"Systematic risk is market-wide risk that affects all securities to some degree, such as interest rate changes or a recession, and cannot be diversified away. Unsystematic risk is specific to an individual company or industry, such as a product recall or a lawsuit, and can be reduced through diversification across many holdings."},
+    {cat:"Markets", q:"What does it mean when a stock's beta is greater than 1?", a:"A beta greater than 1 means the stock has historically been more volatile than the overall market, moving more than the market in both directions. A beta of exactly 1 moves in line with the market, and a beta below 1 means the stock is historically less volatile than the market."},
+    {cat:"Markets", q:"What's the difference between the primary and secondary markets?", a:"The primary market is where new securities are issued and sold directly by the company, such as an IPO or a new bond issuance, with proceeds going to the company. The secondary market is where existing securities are subsequently traded between investors, such as on a stock exchange, and the company itself does not receive proceeds from those trades."},
+
+    {cat:"Behavioral", q:"Tell me about a time you failed and what you learned.", a:"Choose a genuine example with real stakes, briefly explain what went wrong, and spend most of the answer on what you did differently afterward and what you learned. Avoid examples that aren't really failures in disguise, and avoid blaming other people for the outcome."},
+    {cat:"Behavioral", q:"How do you handle working with someone you don't get along with?", a:"Strong answers focus on professionalism and finding common ground, such as understanding the other person's working style or priorities, communicating directly rather than avoiding the issue, and keeping the focus on the shared goal or deliverable rather than the personal friction."},
+    {cat:"Behavioral", q:"Where do you see yourself in five years?", a:"For IB recruiting, a reasonable answer usually reflects a realistic path, such as growing as an analyst, possibly moving to a senior role or transitioning to the buy side, while showing genuine long-term interest in finance. Avoid answers that suggest you see the job as a short stepping stone with no real interest in banking itself."},
+    {cat:"Valuation", q:"What are the three main valuation methodologies?", a:"Comparable company analysis using trading multiples of similar public companies, precedent transactions using multiples paid in past M&A deals for similar companies, and discounted cash flow analysis using the present value of projected future cash flows. Trading comps reflect public market sentiment, precedents include a control premium, and DCF is the most intrinsic but most assumption sensitive."},
+    {cat:"Valuation", q:"Why would a DCF produce a higher valuation than comparable companies?", a:"A DCF can produce a higher value if the company's projected growth or margins are more optimistic than what public market multiples currently reflect, if the discount rate used is relatively low, or if the terminal value assumption is aggressive. It can also reflect that comps are temporarily undervalued due to market conditions rather than fundamentals."},
+    {cat:"Valuation", q:"What's the difference between enterprise value and equity value?", a:"Equity value is what shareholders own, essentially share price times shares outstanding. Enterprise value represents the value of the whole business to all capital providers, calculated as equity value plus debt and minority interest and preferred stock, minus cash. Enterprise value is capital structure neutral, which is why it's used for multiples like EV to EBITDA."},
+    {cat:"Valuation", q:"Walk me through how you'd calculate WACC.", a:"WACC weights the cost of equity and after tax cost of debt by their proportion of the company's capital structure. Cost of equity is usually estimated with CAPM, risk free rate plus beta times the equity risk premium. Cost of debt is the company's borrowing rate, adjusted downward by one minus the tax rate since interest is tax deductible. You then weight each by the market value of equity and debt as a share of total capitalization."},
+    {cat:"Valuation", q:"Why do you use unlevered free cash flow in a DCF rather than levered free cash flow?", a:"Unlevered free cash flow excludes interest expense, so it reflects cash flow available to all capital providers, not just equity holders. Since it is discounted at WACC, which blends the cost of both debt and equity, using unlevered cash flow avoids double counting the cost of debt that is already captured in the discount rate."},
+    {cat:"Valuation", q:"What is terminal value and how do you calculate it?", a:"Terminal value captures the value of all cash flows beyond the explicit projection period. It's usually calculated one of two ways, the Gordon Growth method, which grows the final year's cash flow at a perpetual growth rate and discounts it, or the exit multiple method, which applies a market based multiple to the final year's metric, often EBITDA."},
+    {cat:"Valuation", q:"Why might two companies in the same industry trade at very different EV/EBITDA multiples?", a:"Differences usually come down to growth expectations, margin profile, competitive positioning, capital intensity, and perceived risk. A company with faster growth, higher margins, or a stronger moat will typically command a premium multiple even within the same sector."},
+
+    // M&A
+    {cat:"M&A", q:"What's the difference between a strategic and a financial buyer?", a:"A strategic buyer is typically another operating company acquiring for synergies, such as cost savings, market access, or product expansion, and can often justify paying a higher price. A financial buyer, like a private equity firm, acquires primarily for investment returns, usually through leverage and an eventual exit, and has less ability to pay for synergies it cannot realize."},
+    {cat:"M&A", q:"What is accretion/dilution analysis?", a:"It measures whether an acquirer's earnings per share increases (accretive) or decreases (dilutive) after a deal closes, based on the combined company's pro forma net income divided by pro forma shares outstanding. It's driven mainly by the relative P/E multiples of the buyer and target and how the deal is financed."},
+    {cat:"M&A", q:"When would a stock deal be more attractive to a buyer than a cash deal?", a:"A buyer might prefer a stock deal if its own stock is trading at a high valuation, since it effectively lets them pay with expensive currency, if it wants to preserve cash and balance sheet flexibility, or if it wants to share integration risk with the seller by giving them ongoing exposure to the combined company."},
+    {cat:"M&A", q:"What's the difference between a merger and an acquisition, technically speaking?", a:"In an acquisition, one company purchases another, and the target typically stops existing as an independent entity or becomes a subsidiary. In a merger, two companies technically combine to form a new entity, though in practice the terms are often used interchangeably regardless of the deal's legal structure."},
+    {cat:"M&A", q:"What is a synergy, and what's the difference between revenue and cost synergies?", a:"A synergy is additional value created by combining two companies that neither could achieve independently. Cost synergies come from eliminating duplicate functions, facilities, or overhead. Revenue synergies come from cross selling, expanded distribution, or combined product offerings, and are generally viewed as less certain and harder to underwrite than cost synergies."},
+    {cat:"M&A", q:"Why might a seller prefer an all-cash deal over a stock-for-stock deal?", a:"Cash gives the seller certainty of value at closing, since it isn't exposed to fluctuations in the acquirer's share price afterward. It also lets shareholders exit fully rather than remaining exposed to integration risk or the combined company's future performance."},
+    {cat:"M&A", q:"What's a break-up fee and why does it exist in a merger agreement?", a:"A break-up fee is a payment one party, usually the target, owes the other if the deal falls through under specific circumstances, such as the target's board accepting a superior competing offer. It compensates the disappointed party for time and cost sunk into the deal and discourages sellers from using a signed agreement just to solicit better offers."},
+
+    // LBO
+    {cat:"LBO", q:"Walk me through a basic LBO model.", a:"A financial sponsor acquires a company using a combination of debt and equity, often with debt making up the majority of the purchase price. The company's cash flows are used to pay down debt over the holding period, and the sponsor exits, usually in three to seven years, by selling the company or taking it public. Returns come from debt paydown, EBITDA growth, and any multiple expansion at exit."},
+    {cat:"LBO", q:"What makes a good LBO candidate?", a:"Strong, stable, and predictable cash flows to support debt service, low ongoing capital expenditure needs, a defensible market position, room for operational improvement, and a reasonable purchase price relative to cash flow. Businesses with recurring revenue and limited cyclicality are especially attractive."},
+    {cat:"LBO", q:"What are the main levers that drive returns in an LBO?", a:"Three main levers: debt paydown, which increases the equity portion of the capital structure over time; EBITDA growth, from revenue growth or margin improvement; and multiple expansion, selling at a higher multiple than the entry multiple. Of the three, debt paydown and EBITDA growth are generally viewed as more controllable than multiple expansion."},
+    {cat:"LBO", q:"What's the difference between IRR and MOIC?", a:"MOIC, multiple on invested capital, measures total cash returned divided by cash invested, without accounting for time. IRR measures the annualized rate of return and does account for time. A deal can have a high MOIC but a mediocre IRR if it took a very long time to achieve, or a high IRR but modest MOIC if returns came quickly."},
+    {cat:"LBO", q:"Why do private equity firms use leverage in an acquisition?", a:"Leverage reduces the amount of equity a sponsor needs to put in, which increases the percentage return on that equity if the deal performs well. It also creates discipline for management around cash generation and debt paydown, though it increases risk if the company underperforms or cannot service its debt."},
+    {cat:"LBO", q:"What happens to equity returns if you increase the amount of debt used in an LBO, holding everything else constant?", a:"Higher leverage generally increases the equity return, since less equity is required upfront to fund the same purchase price, and the fixed value created by the deal is now split across a smaller equity base. This magnifies returns in a successful deal, but it also magnifies losses and increases risk if performance falls short."},
+
+    // Markets
+    {cat:"Markets", q:"What happens to bond prices when interest rates rise?", a:"Bond prices fall when interest rates rise, since existing bonds with lower fixed coupon rates become less attractive compared to newly issued bonds paying higher rates. The relationship is inverse, and longer duration bonds are more sensitive to rate changes than shorter duration bonds."},
+    {cat:"Markets", q:"What's the difference between the Fed Funds Rate and the 10-year Treasury yield?", a:"The Fed Funds Rate is the short term interest rate the Federal Reserve targets for overnight lending between banks, directly controlled by monetary policy. The 10-year Treasury yield is a longer term rate set by the market, reflecting investor expectations for growth, inflation, and future Fed policy over the next decade."},
+    {cat:"Markets", q:"Walk me through what happens to stock valuations when interest rates rise.", a:"Higher rates increase the discount rate used to value future cash flows, which lowers the present value of those cash flows and tends to pressure valuations downward, particularly for growth companies whose value is weighted toward cash flows far in the future. Higher rates can also increase borrowing costs and slow economic activity, which can further weigh on earnings expectations."},
+    {cat:"Markets", q:"What's an inverted yield curve and what does it typically signal?", a:"An inverted yield curve occurs when short term interest rates are higher than long term rates, the opposite of the normal upward sloping curve. It has historically been viewed as a signal that investors expect slower growth or a recession ahead, since it implies the market expects rates to fall in the future."},
+    {cat:"Markets", q:"If you had $10,000 to invest today, what would you do with it?", a:"There's no single right answer, interviewers are testing whether you can articulate a clear, reasoned view. A strong answer picks a specific asset or sector, explains the thesis with a concrete catalyst or trend, acknowledges the key risk, and shows genuine engagement with markets rather than a generic or hedge-everything answer."},
+
+    // Behavioral
+    {cat:"Behavioral", q:"Why investment banking?", a:"Strong answers usually combine three threads: genuine interest in deal work and corporate finance, a specific reason tied to personal experience such as a project, internship, or class that sparked it, and why this firm or group specifically fits that interest. Avoid generic answers about fast paced environments or learning a lot without concrete specifics behind them."},
+    {cat:"Behavioral", q:"Walk me through your resume.", a:"This should be a concise narrative, not a recitation. Pick two to three threads that connect your experiences, such as a growing interest in finance or a pattern of taking on more analytical responsibility, and walk through them chronologically, ending with why that trajectory leads naturally to this role."},
+    {cat:"Behavioral", q:"Why this firm?", a:"Strong answers are specific rather than generic. Reference something distinct about the firm's culture, deal focus, group structure, or people you've spoken with, and connect it to what you're looking for. Avoid answers that could apply equally to any bank."},
+    {cat:"Behavioral", q:"Tell me about a time you worked on a team under a tight deadline.", a:"Use a specific example with a clear structure: the situation and stakes, the specific actions you took, and the outcome. Emphasize your individual contribution and what you learned, rather than describing the team's effort in vague, collective terms."},
+    {cat:"Behavioral", q:"What's a weakness you're working on?", a:"Pick something genuine and specific rather than a disguised strength like working too hard. Explain concretely what you're doing to improve it, showing self-awareness and a proactive approach rather than just naming the weakness."},
+    {cat:"Behavioral", q:"Tell me about a time you disagreed with someone and how you handled it.", a:"Choose an example where you handled the disagreement professionally and constructively, focusing on how you communicated your perspective, listened to the other side, and reached a resolution. Avoid examples that make you look combative or examples where you simply deferred without explanation."},
+  ];
+
+  const categorySelect = document.getElementById('fcCategory');
+  const cats = ["All Categories", ...Array.from(new Set(questions.map(q => q.cat)))];
+  categorySelect.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
+
+  let activeDeck = questions.map((_, i) => i);
+  let order = [];
+  let pos = 0;
+  const shuffle = arr => {
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  };
+  const card = document.getElementById('flashcard');
+  const showCard = () => {
+    const item = questions[order[pos]];
+    card.classList.remove('flipped');
+    document.getElementById('fcCatFront').textContent = item.cat;
+    document.getElementById('fcCatBack').textContent = item.cat;
+    document.getElementById('fcQuestion').textContent = item.q;
+    document.getElementById('fcAnswer').textContent = item.a;
+    document.getElementById('fcProgress').textContent = `Card ${pos+1} of ${order.length}`;
+  };
+  const nextCard = () => {
+    pos += 1;
+    if(pos >= order.length){ order = shuffle(activeDeck); pos = 0; }
+    showCard();
+  };
+  const rebuildDeck = () => {
+    const chosen = categorySelect.value;
+    activeDeck = chosen === "All Categories"
+      ? questions.map((_, i) => i)
+      : questions.map((_, i) => i).filter(i => questions[i].cat === chosen);
+    order = shuffle(activeDeck);
+    pos = 0;
+    showCard();
+  };
+  categorySelect.addEventListener('change', rebuildDeck);
+  rebuildDeck();
+  document.getElementById('fcShuffle').addEventListener('click', (e) => { e.stopPropagation(); nextCard(); });
+</script>
+
+</body>
+</html>
